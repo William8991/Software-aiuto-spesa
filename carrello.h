@@ -41,7 +41,7 @@ void rimuovi_dal_carrello(teste_carrello* heads, int codice, int quantita);
 //stampa la lista del carrello i ordine alfabetico
 void stampa_carrello(teste_carrello heads);
 //svuota il carrello dell'utente (invoca la funzione rimuovi dal carrello)
-void svuota_carrello(teste_carrello heads);
+void svuota_carrello(teste_carrello* heads);
 //rimuove il nome utente dalla lista principale
 void rimuovi_nome_utente(lista_nomi_utenti* head, char username[]);
 //verifica l'esistenza del carrello

@@ -41,6 +41,8 @@ int main(){
 	int result = -1;
 	//variabile per la ricerca della categoria
 	char ch_categoria[30];
+	//varibile per la modifica del nome del prodotto
+	char nome_prodotto[30];
 
 	//presentazione del programma
 	printf("SOFTWARE PER SUPERMERCATI\n");
@@ -101,7 +103,32 @@ int main(){
 															case 1:
 																		printf("\n");
 																		printf("Scrivere i dati del prodotto.\n");
-																		p = crea_prodotto();
+																		while (result != 0){
+																      	printf("Nome: ");
+																      	fgets(p.nome, 30, stdin);
+																      	result = verifica_nome_prodotto(prod, p.nome);
+																      	if (result != 0)
+																         	printf("Prodotto gia' esistente.\nRiprova.\n");
+																	   	}
+																	   printf("Categoria: ");
+																	   scanf("%s", p.categoria);
+																	   while((ch=getchar())!='\n'&&ch!=EOF);
+																	   do {
+																	      printf("Prezzo: ");
+																	      scanf("%f", &p.prezzo);
+																	      while((ch=getchar())!='\n'&&ch!=EOF);
+																	      if (p.prezzo <= 0)
+																	         printf("Scrivere un prezzo valido.\n");
+																	      }
+																	   while (p.prezzo<=0);
+																	   do {
+																	      printf("Quantita': ");
+																	      scanf("%d", &p.quantita);
+																	      while((ch=getchar())!='\n'&&ch!=EOF);
+																	      if (p.quantita<=0)
+																	         printf("Quantita' non valida.\n");
+																	      }
+																	   while (p.quantita <= 0);
 																		codice = aggiungi_prodotto(&prod, p);
 																		aggiungi_categoria(&categoria, p.categoria);
 																		prodotti_categoria = cerca_categoria(categoria, p.categoria);
@@ -127,9 +154,35 @@ int main(){
 														switch (terza_scelta){
 															//aggiunge un prodotto alla lista
 															case 1:
+																		result = -1;
 																		printf("\n");
    	                                                printf("Scrivere i dati del prodotto.\n");
-	                                                   p = crea_prodotto();
+																		while (result != 0){
+																	      printf("Nome: ");
+																	      fgets(p.nome, 30, stdin);
+																	      result = verifica_nome_prodotto(prod, p.nome);
+																	      if (result != 0)
+																	         printf("Prodotto gia' esistente.\nRiprova.\n");
+																		   }
+																		   printf("Categoria: ");
+																		   scanf("%s", p.categoria);
+																		   while((ch=getchar())!='\n'&&ch!=EOF);
+																		   do {
+																		      printf("Prezzo: ");
+																		      scanf("%f", &p.prezzo);
+																		      while((ch=getchar())!='\n'&&ch!=EOF);
+																		      if (p.prezzo <= 0)
+																	         printf("Scrivere un prezzo valido.\n");
+																		      }
+																		   while (p.prezzo<=0);
+																		   do {
+																		      printf("Quantita': ");
+																		      scanf("%d", &p.quantita);
+																		      while((ch=getchar())!='\n'&&ch!=EOF);
+																		      if (p.quantita<=0)
+																		         printf("Quantita' non valida.\n");
+																		      }
+																		   while (p.quantita <= 0);
 																		codice = aggiungi_prodotto(&prod, p);
                                                       prodotti_categoria = cerca_categoria(categoria, p.categoria);
                                                       if (prodotti_categoria == NULL){
@@ -150,9 +203,14 @@ int main(){
                                                       result = verifica_codice(prod, codice);
                                                       if (result != 0)  printf("Il prodotto non esiste.\n");
                                                       else{
-	                                                      printf("Scrivere la quantita: ");
-                                                         scanf("%d", &quantita);
-                                                         while((ch=getchar())!='\n'&&ch!=EOF);
+																			do{
+	                                                      	printf("Scrivere la quantita: ");
+                                                         	scanf("%d", &quantita);
+                                                         	while((ch=getchar())!='\n'&&ch!=EOF);
+																				if (quantita <= 0)
+																					printf("Quantita' non valida.\n");
+																				}
+																			while (quantita <= 0);
                                                          p = cerca_prodotto(prod, codice);
                                                          if (p.quantita > quantita)
 	                                                         rimuovi_prodotto(&prod, codice, quantita);
@@ -183,7 +241,40 @@ int main(){
 																			prodotti_categoria = cerca_categoria(categoria, p.categoria);
 																			if (prodotti_categoria->prodotti_per_categoria.head == NULL)
 																				rimuovi_categoria(&categoria, p.categoria);
-                                                         p = modifica_prodotto(&prod, codice);
+																			strcpy(nome_prodotto, p.nome);
+																			result = -1;
+																			while (result != 0){
+																		      printf("Nome: ");
+																		      fgets(p.nome, 30, stdin);
+																				//operazione per poter scrivere lo stesso nome		//---- VERIFICARE
+																				if (strcmp(nome_prodotto, p.nome) != 0){
+																		      	result = verifica_nome_prodotto(prod, p.nome);
+																		      	if (result != 0)
+																		         	printf("Prodotto gia' esistente.\nRiprova.\n");
+																					}
+																				else
+																					result = 0;
+																			   }
+																		   printf("Categoria: ");
+																		   scanf("%s", p.categoria);
+																		   while((ch=getchar())!='\n'&&ch!=EOF);
+																		   do {
+																		      printf("Prezzo: ");
+																		      scanf("%f", &p.prezzo);
+																		      while((ch=getchar())!='\n'&&ch!=EOF);
+																		      if (p.prezzo <= 0)
+																		         printf("Scrivere un prezzo valido.\n");
+																		      }
+																		   while (p.prezzo<=0);
+																		   do {
+																		      printf("Quantita': ");
+																		      scanf("%d", &p.quantita);
+																		      while((ch=getchar())!='\n'&&ch!=EOF);
+																		      if (p.quantita<=0)
+																		         printf("Quantita' non valida.\n");
+																		      }
+																		   while (p.quantita <= 0);
+                                                         modifica_prodotto(&prod, codice, p);
 																			prodotti_categoria = cerca_categoria(categoria, p.categoria);
 																			if (prodotti_categoria == NULL){
 																				aggiungi_categoria(&categoria, p.categoria);
@@ -231,9 +322,14 @@ int main(){
 																		result = verifica_codice(prod, codice);
 																		if (result != 0)  printf("Il prodotto non esiste.\n");
 																		else{
-																			printf("Quantita del prodotto: ");
-																			scanf("%d", &quantita);
-																			while((ch=getchar())!='\n'&&ch!=EOF);
+																			do{
+																				printf("Quantita del prodotto: ");
+																				scanf("%d", &quantita);
+																				while((ch=getchar())!='\n'&&ch!=EOF);
+																				if (quantita <= 0)
+																					printf("Quantita'non valida.\n");
+																				}
+																			while (quantita <= 0);
 																			result = aggiungi_al_carrello(&utente_carrello->carrello, prod, codice, quantita);
 																			if (result != 0)
 																				printf("Quantita' non valida.\n");
@@ -285,7 +381,32 @@ int main(){
                                              case 1:
                                                       printf("\n");
                                                       printf("Scrivere i dati del prodotto.\n");
-                                                      p = crea_prodotto();
+																		while (result != 0){
+																	      printf("Nome: ");
+																	      fgets(p.nome, 30, stdin);
+																	      result = verifica_nome_prodotto(prod, p.nome);
+																	      if (result != 0)
+																	         printf("Prodotto gia' esistente.\nRiprova.\n");
+																		   }
+																	   printf("Categoria: ");
+																	   scanf("%s", p.categoria);
+																	   while((ch=getchar())!='\n'&&ch!=EOF);
+																	   do {
+																	      printf("Prezzo: ");
+																	      scanf("%f", &p.prezzo);
+																	      while((ch=getchar())!='\n'&&ch!=EOF);
+																	      if (p.prezzo <= 0)
+																	         printf("Scrivere un prezzo valido.\n");
+																	      }
+																	   while (p.prezzo<=0);
+																	   do {
+																	      printf("Quantita': ");
+																	      scanf("%d", &p.quantita);
+																	      while((ch=getchar())!='\n'&&ch!=EOF);
+																	      if (p.quantita<=0)
+																	         printf("Quantita' non valida.\n");
+																	      }
+																	   while (p.quantita <= 0);
                                                       codice = aggiungi_prodotto(&prod, p);
                                                       aggiungi_categoria(&categoria, p.categoria);
 																		prodotti_categoria = cerca_categoria(categoria, p.categoria);
@@ -316,6 +437,9 @@ int main(){
 																		if (prodotti_categoria == NULL)  printf("Categoria non esistente.\n");
 																		else{
 																			while (quarta_scelta != 0){
+																				prodotti_categoria = cerca_categoria(categoria, ch_categoria);
+																				if (prodotti_categoria == NULL)
+																					break;
 																				printf("\n");
 				                                             	printf("PRODOTTI PER CATEGORIA(%s)\n", ch_categoria);
             				                                 	printf("\n");
@@ -326,9 +450,35 @@ int main(){
                                              					switch (quarta_scelta){
                                                 					//Aggiunge un prodotto alla lista
 																					case 1:
+																								result = -1;
                     					                           				printf("\n");
                                  				                     	   printf("Scrivere i dati del prodotto.\n");
-                                                         					p = crea_prodotto();
+																								while (result != 0){
+																							      printf("Nome: ");
+																							      fgets(p.nome, 30, stdin);
+																							      result = verifica_nome_prodotto(prod, p.nome);
+																							      if (result != 0)
+																							         printf("Prodotto gia' esistente.\nRiprova.\n");
+																								   }
+																							   printf("Categoria: ");
+																							   scanf("%s", p.categoria);
+																							   while((ch=getchar())!='\n'&&ch!=EOF);
+																							   do {
+																							      printf("Prezzo: ");
+																							      scanf("%f", &p.prezzo);
+																							      while((ch=getchar())!='\n'&&ch!=EOF);
+																							      if (p.prezzo <= 0)
+																							         printf("Scrivere un prezzo valido.\n");
+																							      }
+																							   while (p.prezzo<=0);
+																							   do {
+																							      printf("Quantita': ");
+																							      scanf("%d", &p.quantita);
+																							      while((ch=getchar())!='\n'&&ch!=EOF);
+																							      if (p.quantita<=0)
+																							         printf("Quantita' non valida.\n");
+																							      }
+																							   while (p.quantita <= 0);
                                                          					codice = aggiungi_prodotto(&prod, p);
                                     				                     	prodotti_categoria = cerca_categoria(categoria, p.categoria);
                                        				                  	if (prodotti_categoria == NULL){
@@ -349,9 +499,14 @@ int main(){
                                                          					result = verifica_codice(prod, codice);
                                                          					if (result != 0)  printf("Il prodotto non esiste.\n");
                                                          					else{
-                                                            					printf("Scrivere la quantita: ");
-                                                            					scanf("%d", &quantita);
-                                                            					while((ch=getchar())!='\n'&&ch!=EOF);
+																									do{
+                                                            						printf("Scrivere la quantita: ");
+                                                            						scanf("%d", &quantita);
+                                                            						while((ch=getchar())!='\n'&&ch!=EOF);
+																										if (quantita <= 0)
+																											printf("Quantita' non valida.\n");
+																										}
+																									while (quantita <= 0);
                                                             					p = cerca_prodotto(prod, codice);
                                                             					if (p.quantita > quantita)
                                                                					rimuovi_prodotto(&prod, codice, quantita);
@@ -366,7 +521,7 @@ int main(){
 																									printf("Prodotto rimosso.\n");
 																									}
 																								break;
-																					//permette di modificre il prodotto
+																					//permette di modificare il prodotto
 																					case 3:
 																								printf("\n");
 					                                                   	   printf("Scrivere il codice del prodotto da modificare: ");
@@ -381,7 +536,39 @@ int main(){
 					                                                         	prodotti_categoria = cerca_categoria(categoria, p.categoria);
 					                                                         	if (prodotti_categoria->prodotti_per_categoria.head == NULL)
 					                                                            	rimuovi_categoria(&categoria, p.categoria);
-					                                                         	p = modifica_prodotto(&prod, codice);
+																									strcpy(nome_prodotto, p.nome);
+																									result = -1;
+																									while (result != 0){				//---- VERIFICARE
+																								      printf("Nome: ");
+																								      fgets(p.nome, 30, stdin);
+																										if (strcmp(nome_prodotto, p.nome) != 0){
+																								      	result = verifica_nome_prodotto(prod, p.nome);
+																								      	if (result != 0)
+																								         	printf("Prodotto gia' esistente.\nRiprova.\n");
+																											}
+																										else
+																											result = 0;
+																									   }
+																								   printf("Categoria: ");
+																								   scanf("%s", p.categoria);
+																								   while((ch=getchar())!='\n'&&ch!=EOF);
+																								   do {
+																								      printf("Prezzo: ");
+																								      scanf("%f", &p.prezzo);
+																								      while((ch=getchar())!='\n'&&ch!=EOF);
+																								      if (p.prezzo <= 0)
+																								         printf("Scrivere un prezzo valido.\n");
+																								      }
+																								   while (p.prezzo<=0);
+																								   do {
+																								      printf("Quantita': ");
+																								      scanf("%d", &p.quantita);
+																								      while((ch=getchar())!='\n'&&ch!=EOF);
+																								      if (p.quantita<=0)
+																								         printf("Quantita' non valida.\n");
+																								      }
+																								   while (p.quantita <= 0);
+					                                                         	modifica_prodotto(&prod, codice, p);
 					                                                         	prodotti_categoria = cerca_categoria(categoria, p.categoria);
 					                                                         	if (prodotti_categoria == NULL){
 				                                                            	aggiungi_categoria(&categoria, p.categoria);
@@ -457,9 +644,14 @@ int main(){
 					                                                      	result = verifica_codice(prod, codice);
 										                                       	if (result != 0)  printf("Il prodotto non esiste.\n");
 					                                                      	else{
-					                                                      	   printf("Quantita del prodotto: ");
-					                                                         	scanf("%d", &quantita);
-					                                                         	while((ch=getchar())!='\n'&&ch!=EOF);
+																									do{
+					                                                      	   	printf("Quantita del prodotto: ");
+					                                                         		scanf("%d", &quantita);
+					                                                         		while((ch=getchar())!='\n'&&ch!=EOF);
+																										if (quantita <= 0)
+																											printf("Quantita' non valida.\n");
+																										}
+																									while (quantita <= 0);
 					                                                         	result = aggiungi_al_carrello(&utente_carrello->carrello, prod, codice, quantita);
 					                                                         	if (result != 0)
 					                                                            	printf("Quantita' non valida.\n");
@@ -573,7 +765,7 @@ int main(){
                                        result = verifica_username(users, username);
                                        if (result != 0){
 														utente_carrello = cerca_username_carrello(carrello, username);
-														svuota_carrello(utente_carrello->carrello);
+														svuota_carrello(&utente_carrello->carrello);
 														rimuovi_nome_utente(&carrello,username);
                                           rimuovi_utente(&users, username);
 														printf("Utente rimosso.\n");
@@ -618,9 +810,14 @@ int main(){
 													printf("Scrivere il codice del prodotto da rimuovere: ");
 													scanf("%d", &codice);
 													while((ch=getchar())!='\n'&&ch!=EOF);
-													printf("Quantita da rimuovere: ");
-													scanf("%d", &quantita);
-													while((ch=getchar())!='\n'&&ch!=EOF);
+													do{
+														printf("Quantita da rimuovere: ");
+														scanf("%d", &quantita);
+														while((ch=getchar())!='\n'&&ch!=EOF);
+														if (quantita <= 0)
+															printf("Quantita' non valida.\n");
+														}
+													while (quantita <= 0);
 													rimuovi_dal_carrello(&utente_carrello->carrello, codice, quantita);
 													printf("Prodotto rimosso dal carrello.\n");
 													break;
@@ -632,7 +829,7 @@ int main(){
 													while((ch=getchar())!='\n'&&ch!=EOF);
 													switch (result){
 														case 1:
-																	svuota_carrello(utente_carrello->carrello);
+																	svuota_carrello(&utente_carrello->carrello);
 																	printf("Carrello svuotato.\n");
 																	break;
 														case 0:
@@ -686,8 +883,77 @@ int main(){
 						if (admin != 0 && accesso != 0){
 							printf("\n");
 							printf("REGISTRAZIONE.\n");
+
+
+																													//----- VERIFICARE LA FUNZIONALITA'
 							//chiedo all'utente di inserire i suoi dati per la registrazione
-							dati = dati_utente(users);
+							printf("Nome: ");
+						   fgets(dati.nome, 30, stdin);
+						   printf("Cognome: ");
+						   fgets(dati.cognome, 30, stdin);
+						   printf("Citta': ");
+						   fgets(dati.citta, 30, stdin);
+						   printf("Data di nascita.\n");
+							do{
+								printf("Giorno: ");
+								scanf("%d", &dati.giorno);
+								while((ch=getchar())!='\n'&&ch!=EOF);
+								if (dati.giorno < 1 || dati.giorno > 31)
+									printf("Giorno non valido.\n");
+								}
+							while (dati.giorno < 1 || dati.giorno > 31);
+							//ciclo per far scrivere all'utente il mese esatto
+						   do{
+						      printf("Mese: ");
+						      scanf("%d", &dati.mese);
+						      while((ch=getchar())!='\n'&&ch!=EOF);
+						      if (dati.mese < 1 || dati.mese > 12)
+						         printf("Mese non valido, riprova.\n");
+					      	}
+							while (dati.mese < 1 || dati.mese > 12);
+							//ciclo per far scrivere all'utente un anno valido
+							do{
+						      printf("Anno: ");
+							   scanf("%d", &dati.anno);
+							   while((ch=getchar())!='\n'&&ch!=EOF);
+							   if (dati.anno < 1910 || dati.anno > 2021)
+							   	printf("Anno non valido.\n");
+						      }
+							while (dati.anno < 1910 || dati.anno > 2021);
+							//ciclo per salvare username e verificare se esiste
+							result = -1;
+							while (result != 0){
+								printf("Nome utente: ");
+							   scanf("%s", dati.username);
+							   while((ch=getchar())!='\n'&&ch!=EOF);
+							   //verifico che l'utente non abbia messo i dati dell'admin
+							   if (strcmp(dati.username, "admin") == 0){
+							         result = -1;
+							         printf("Nome utente esistente, riprova.\n");
+							         }
+							   else{
+						         //funzione per vericare l'esistenza dell'username nella lista
+							      result = verifica_username(users, dati.username);
+							      if (result != 0)
+										printf("Nome utente esistente, riprova.\n");
+							      }
+							   }
+							result = -1;
+							//ciclo per confermare la password
+							while (result != 0){
+								printf("Password: ");
+							   scanf("%s", dati.password);
+							   while((ch=getchar())!='\n'&&ch!=EOF);
+						      printf("Conferma password: ");
+						      scanf("%s", conferma_pass);
+						      while((ch=getchar())!='\n'&&ch!=EOF);
+							   if (strcmp(dati.password, conferma_pass) != 0){
+							   	printf("Password non corrisponde, riprova.\n");
+							      result = -1;
+							      }
+							   else
+							   	result = 0;
+							   }
 							//aggiungo l'utente alla lista
 							aggiungi_utente(&users, dati);
 							printf("Registrazione effettuata.\n");
@@ -708,18 +974,18 @@ int main(){
 												scanf("%s", nuovo_username);
 												while((ch=getchar())!='\n'&&ch!=EOF);
 												result = modifica_username(users, username, nuovo_username);
-												if (result != 0)  printf("Modifica non effettuata.\n");
+												if (result != 0)  printf("Modifica non effettuata.\n");					//-- SISITEMARE L'ERRORE
 												else {
 													aggiungi_nome_utente(&carrello, nuovo_username);
 													trasferisci_carrello(carrello, username, nuovo_username);
-													svuota_carrello(utente_carrello->carrello);
+										//			svuota_carrello(&utente_carrello->carrello);
 													rimuovi_nome_utente(&carrello,username);
 													strcpy(username, nuovo_username);
 													utente_carrello = cerca_username_carrello(carrello, username);
 													printf("Modifica effettuata.\n");
 													}
 												break;
-									//modifica la password el profilo
+									//modifica la password del profilo
 									case 2:
 												printf("\n");
 												printf("Scrivere la nuova password: ");
@@ -728,7 +994,7 @@ int main(){
 												printf("Conferma password: ");
 												scanf("%s", conferma_pass);
 												while((ch=getchar())!='\n'&&ch!=EOF);
-												if (strcmp(password, nuova_pass) == 0){
+												if (strcmp(conferma_pass, nuova_pass) == 0){
 													result = modifica_password(users, username, nuova_pass);
 													if (result != 0)  printf("Errore di modifica.\n");
 													else{
@@ -747,7 +1013,7 @@ int main(){
 												scanf("%s", nuova_pass);
 												while((ch=getchar())!='\n'&&ch!=EOF);
 												if (strcmp(password, nuova_pass) == 0){
-													svuota_carrello(utente_carrello->carrello);
+													svuota_carrello(&utente_carrello->carrello);
                                        rimuovi_nome_utente(&carrello,username);
 													rimuovi_utente(&users, username);
 													seconda_scelta = 0;

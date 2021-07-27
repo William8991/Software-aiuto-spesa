@@ -160,17 +160,15 @@ void rimuovi_dal_carrello(teste_carrello* heads, int codice, int quantita){
 
 
 //svuota l'intera lista del carrello invocando la funzione rimovi dal carrello
-void svuota_carrello(teste_carrello heads){
+void svuota_carrello(teste_carrello* heads){
 	//copia delle teste
 	carrello_utente p;
 	carrello_utente r;
 	//scorre la lista
-	while (heads.head != NULL && heads.cod_head != NULL){
-		p = heads.head->next;
-		r = heads.cod_head->cod_next;
-		rimuovi_dal_carrello(&heads, heads.head->prodotto_puntato->codice, heads.head->quantita);
-		heads.head = p;
-		heads.cod_head = r;
+	while (heads->head != NULL){
+		p = heads->head->next;
+		rimuovi_dal_carrello(heads, heads->head->prodotto_puntato->codice, heads->head->quantita);
+		heads->head = p;
 		}
 }
 
@@ -223,7 +221,7 @@ void svuota_carrelli(lista_nomi_utenti head){
 	lista_nomi_utenti p;
 	while (head != NULL){
 		p = head->next;
-		svuota_carrello(head->carrello);
+		svuota_carrello(&head->carrello);
 		rimuovi_nome_utente(&head, head->username);
 		head = p;
 		}

@@ -171,13 +171,10 @@ void stampa_prodotti_categoria(teste_prodotti_categoria heads){
 //svuota la lista delle categorie
 void svuota_prodotti_categorie(teste_prodotti_categoria* heads){
 	prodotti_cat p;
-	prodotti_cat r;
-	while (heads->head != NULL && heads->cod_head != NULL){
+	while (heads->head != NULL){
       p = heads->head->prod_next;
-      r = heads->cod_head->prod_cod_next;
       rimuovi_prodotto_cat(heads, heads->head->prodotto_puntato->codice);
       heads->head = p;
-      heads->cod_head = r;
 		}
 }
 

@@ -20,22 +20,12 @@ int verifica_lista_prodotti(teste_prodotti heads){
 }
 
 
-//crea il prodotto da aggiungere alla lista
-prodotto crea_prodotto(){
-	char ch;
-	prodotto p;
-	printf("Nome: ");
-	fgets(p.nome, 30, stdin);
-	printf("Categoria: ");
-	scanf("%s", p.categoria);
-	while((ch=getchar())!='\n'&&ch!=EOF);
-	printf("Prezzo: ");
-	scanf("%f", &p.prezzo);
-	while((ch=getchar())!='\n'&&ch!=EOF);
-	printf("Quantita': ");
-   scanf("%d", &p.quantita);
-	while((ch=getchar())!='\n'&&ch!=EOF);
-	return p;
+//verifica l'esistenza del nome del prodotto nella lista
+int verifica_nome_prodotto(teste_prodotti heads, char nome[]){
+	while (heads.head != NULL && strcmp(heads.head->data.nome, nome) != 0)
+		heads.head = heads.head->next;
+	if (heads.head != NULL) return 1;
+	else return 0;
 }
 
 
@@ -151,11 +141,12 @@ int verifica_codice(teste_prodotti heads, int codice){
 
 
 //permette di modificare il prodotto (solo per admin)
-prodotto modifica_prodotto(teste_prodotti* heads, int codice){
+void modifica_prodotto(teste_prodotti* heads, int codice, prodotto q){
 	lista_prodotti r = heads->head;
 	lista_prodotti t = heads->head;
 	lista_prodotti p = heads->cod_head;
-	prodotto q = crea_prodotto();
+
+//	prodotto q = crea_prodotto();
 
 	while ((p != NULL) && (p->codice != codice))
 		p = p->cod_next;
@@ -182,8 +173,6 @@ prodotto modifica_prodotto(teste_prodotti* heads, int codice){
 		t->next = p;
 		p->next = r;
 		}
-
-	return q;
 }
 
 

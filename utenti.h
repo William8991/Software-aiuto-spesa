@@ -30,8 +30,6 @@ void stampa_utenti(lista_utenti head);
 int verifica_lista_utenti(lista_utenti head);
 //svuota tutta la lista degli utenti
 void svuota_lista_utenti(lista_utenti head);
-//registrazione dell'utente
-utente dati_utente(lista_utenti head);
 //verifica l'esistenza dell'username nella lista utenti
 int verifica_username(lista_utenti head, char username[]);
 //permette l'accesso dell'utente

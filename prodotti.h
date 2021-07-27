@@ -41,12 +41,12 @@ void svuota_lista_prodotti(teste_prodotti heads);
 prodotto cerca_prodotto(teste_prodotti heads, int codice);
 //stampa la lista dei prodotti in ordine alfabetico
 void stampa_prodotti(teste_prodotti heads);
-//registra il prodotto da inserire
-prodotto crea_prodotto();
 //verifica l'esistenza della lista dei prodotti
 int verifica_lista_prodotti(teste_prodotti heads);
+//verifica l'esistenza del nome del prodotto
+int verifica_nome_prodotto(teste_prodotti heads, char nome[]);
 //modifica il prodotto ricercato tramite codice
-prodotto modifica_prodotto(teste_prodotti* heads, int codice);
+void modifica_prodotto(teste_prodotti* heads, int codice, prodotto q);
 //verifica l'esistenza del prodotto nella lista
 int verifica_codice(teste_prodotti heads, int codice);
 
