@@ -974,11 +974,10 @@ int main(){
 												scanf("%s", nuovo_username);
 												while((ch=getchar())!='\n'&&ch!=EOF);
 												result = modifica_username(users, username, nuovo_username);
-												if (result != 0)  printf("Modifica non effettuata.\n");					//-- SISITEMARE L'ERRORE
+												if (result != 0)  printf("Modifica non effettuata.\n");
 												else {
 													aggiungi_nome_utente(&carrello, nuovo_username);
 													trasferisci_carrello(carrello, username, nuovo_username);
-										//			svuota_carrello(&utente_carrello->carrello);
 													rimuovi_nome_utente(&carrello,username);
 													strcpy(username, nuovo_username);
 													utente_carrello = cerca_username_carrello(carrello, username);
